@@ -27,7 +27,7 @@ function App() {
         const signer = provider.getSigner();
         const address = await signer.getAddress();
         setAccount(address);
-        let contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
+        let contractAddress = "0x337cD016b9f606e43E6bfFD537cFE28720d06219";
 
         const contract = new ethers.Contract(
           contractAddress,
@@ -80,17 +80,18 @@ function App() {
 
       <div className="container">
         
-        {/* Upload Section rendered via FileUpload component */}
-        <FileUpload 
-          account={account} 
-          provider={provider}
-          contract={contract}
-        />
+        {/* Upload and Share in same row */}
+        <div className="row">
+          <FileUpload 
+            account={account} 
+            provider={provider}
+            contract={contract}
+          />
 
-        {/* Share Section rendered via Modal component */}
-        <Modal 
-          contract={contract} 
-        />
+          <Modal 
+            contract={contract} 
+          />
+        </div>
 
         {/* Display Section rendered via Display component */}
         <Display 
