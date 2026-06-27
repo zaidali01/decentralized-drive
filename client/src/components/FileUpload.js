@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 import axios from "axios";
 
-const FileUpload = ({ contract, account, provider, toast }) => {
+const FileUpload = ({ contract, account, provider, toast, onUploadSuccess }) => {
   const [file, setFile] = useState(null);
   const [uploading, setUploading] = useState(false);
   const fileInputRef = useRef(null);
@@ -38,6 +38,7 @@ const FileUpload = ({ contract, account, provider, toast }) => {
         
         await contract.add(account, imgUrl);
         toast.success("Successfully uploaded image to blockchain!");
+        onUploadSuccess();
         setFile(null);
         if (fileInputRef.current) fileInputRef.current.value = '';
       } catch (e) {

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-const Display = ({ contract, account, toast }) => {
+const Display = ({ contract, account, toast, reloadTrigger }) => {
   const [data, setData] = useState([]);
   const [otherAddress, setOtherAddress] = useState("");
 
@@ -37,7 +37,7 @@ const Display = ({ contract, account, toast }) => {
       getdata(account, false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [contract, account]);
+  }, [contract, account, reloadTrigger]);
 
   return (
     <>

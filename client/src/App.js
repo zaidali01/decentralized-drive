@@ -11,6 +11,7 @@ function App() {
   const [account, setAccount] = useState("");
   const [contract, setContract] = useState(null);
   const [provider, setProvider] = useState(null);
+  const [reloadTrigger, setReloadTrigger] = useState(0);
   const toast = useToast();
 
   useEffect(() => {
@@ -91,6 +92,7 @@ function App() {
             provider={provider}
             contract={contract}
             toast={toast}
+            onUploadSuccess={() => setReloadTrigger(prev => prev + 1)}
           />
 
           <Modal 
@@ -104,6 +106,7 @@ function App() {
           contract={contract} 
           account={account}
           toast={toast}
+          reloadTrigger={reloadTrigger}
         />
 
       </div>
