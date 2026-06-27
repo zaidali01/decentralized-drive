@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-const Display = ({ contract, account }) => {
+const Display = ({ contract, account, toast }) => {
   const [data, setData] = useState([]);
   const [otherAddress, setOtherAddress] = useState("");
 
@@ -13,7 +13,7 @@ const Display = ({ contract, account }) => {
         dataArray = await contract.display(account);
       }
     } catch (e) {
-      alert("You don't have access or no files found");
+      toast.error("You don't have access or no files found");
       console.error(e);
       return;
     }
@@ -30,7 +30,6 @@ const Display = ({ contract, account }) => {
     }
   };
 
-  // Automatically load files for the connected account when component mounts
   useEffect(() => {
     if (contract && account) {
       getdata(account);
@@ -40,7 +39,6 @@ const Display = ({ contract, account }) => {
 
   return (
     <>
-      {/* Get Data Section */}
       <div className="section-card">
         <h3 className="section-title">View Shared Drive</h3>
         <div className="input-group">
@@ -57,7 +55,6 @@ const Display = ({ contract, account }) => {
         </div>
       </div>
 
-      {/* Files Display */}
       <h3 className="files-heading">Your Images</h3>
       {data.length === 0 ? (
         <div className="empty">No files uploaded yet</div>

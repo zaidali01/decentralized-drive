@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const Modal = ({ contract }) => {
+const Modal = ({ contract, toast }) => {
   const [shareAddress, setShareAddress] = useState("");
 
   const sharing = async () => {
@@ -8,11 +8,11 @@ const Modal = ({ contract }) => {
     try {
       const tx = await contract.allow(shareAddress);
       await tx.wait();
-      alert("Access granted successfully to " + shareAddress);
+      toast.success("Access granted to " + shareAddress.slice(0, 6) + "...");
       setShareAddress("");
     } catch (error) {
       console.error("Share error:", error);
-      alert("Failed to share access: " + error.message);
+      toast.error("Failed to share access");
     }
   };
 

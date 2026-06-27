@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 import axios from "axios";
 
-const FileUpload = ({ contract, account, provider }) => {
+const FileUpload = ({ contract, account, provider, toast }) => {
   const [file, setFile] = useState(null);
   const [uploading, setUploading] = useState(false);
   const fileInputRef = useRef(null);
@@ -9,7 +9,6 @@ const FileUpload = ({ contract, account, provider }) => {
   const retrieveFile = (e) => {
     const data = e.target.files[0];
     if (data) {
-      // Using standard File object instead of Buffer since Pinata accepts File
       setFile(data);
     }
   };
@@ -38,12 +37,12 @@ const FileUpload = ({ contract, account, provider }) => {
         const imgUrl = `https://gateway.pinata.cloud/ipfs/${ipfsHash}`;
         
         await contract.add(account, imgUrl);
-        alert("Successfully uploaded image to blockchain!");
+        toast.success("Successfully uploaded image to blockchain!");
         setFile(null);
         if (fileInputRef.current) fileInputRef.current.value = '';
       } catch (e) {
         console.error(e);
-        alert("Unable to upload image to Pinata");
+        toast.error("Unable to upload image to Pinata");
       }
       setUploading(false);
     }

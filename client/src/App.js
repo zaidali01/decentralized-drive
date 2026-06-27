@@ -4,12 +4,14 @@ import { ethers } from "ethers";
 import FileUpload from "./components/FileUpload";
 import Display from "./components/Display";
 import Modal from "./components/Modal";
+import { useToast, ToastContainer } from "./components/Toast";
 import './App.css';
 
 function App() {
   const [account, setAccount] = useState("");
   const [contract, setContract] = useState(null);
   const [provider, setProvider] = useState(null);
+  const toast = useToast();
 
   useEffect(() => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -51,7 +53,7 @@ function App() {
       const address = await signer.getAddress();
       setAccount(address);
     } else {
-      alert("Please install MetaMask!");
+      toast.error("Please install MetaMask!");
     }
   };
 
@@ -59,6 +61,7 @@ function App() {
   if (!account) {
     return (
       <div className="connect-page">
+        <ToastContainer toasts={toast.toasts} />
         <h1>Decentralized Drive</h1>
         <p>Upload and share files securely on the blockchain</p>
         <button className="connect-btn-large" onClick={connectWallet}>
@@ -71,6 +74,7 @@ function App() {
   // Connected
   return (
     <div className="App">
+      <ToastContainer toasts={toast.toasts} />
       <nav className="navbar">
         <h2>D-Drive</h2>
         <div className="account">
@@ -86,17 +90,20 @@ function App() {
             account={account} 
             provider={provider}
             contract={contract}
+            toast={toast}
           />
 
           <Modal 
-            contract={contract} 
+            contract={contract}
+            toast={toast}
           />
         </div>
 
         {/* Display Section rendered via Display component */}
         <Display 
           contract={contract} 
-          account={account} 
+          account={account}
+          toast={toast}
         />
 
       </div>
