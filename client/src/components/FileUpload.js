@@ -3,7 +3,6 @@ import axios from "axios";
 
 const FileUpload = ({ contract, account, provider }) => {
   const [file, setFile] = useState(null);
-  const [fileName, setFileName] = useState("No image selected");
   const [uploading, setUploading] = useState(false);
   const fileInputRef = useRef(null);
 
@@ -12,7 +11,6 @@ const FileUpload = ({ contract, account, provider }) => {
     if (data) {
       // Using standard File object instead of Buffer since Pinata accepts File
       setFile(data);
-      setFileName(data.name);
     }
   };
 
@@ -41,8 +39,6 @@ const FileUpload = ({ contract, account, provider }) => {
         
         await contract.add(account, imgUrl);
         alert("Successfully uploaded image to blockchain!");
-        
-        setFileName("No image selected");
         setFile(null);
         if (fileInputRef.current) fileInputRef.current.value = '';
       } catch (e) {
