@@ -4,7 +4,7 @@ const Display = ({ contract, account, toast }) => {
   const [data, setData] = useState([]);
   const [otherAddress, setOtherAddress] = useState("");
 
-  const getdata = async (addressToFetch) => {
+  const getdata = async (addressToFetch, showError = true) => {
     let dataArray;
     try {
       if (addressToFetch) {
@@ -13,7 +13,9 @@ const Display = ({ contract, account, toast }) => {
         dataArray = await contract.display(account);
       }
     } catch (e) {
-      toast.error("You don't have access or no files found");
+      if (showError) {
+        toast.error("You don't have access or no files found");
+      }
       console.error(e);
       return;
     }
@@ -32,7 +34,7 @@ const Display = ({ contract, account, toast }) => {
 
   useEffect(() => {
     if (contract && account) {
-      getdata(account);
+      getdata(account, false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [contract, account]);
